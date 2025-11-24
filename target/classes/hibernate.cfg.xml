@@ -1,0 +1,37 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/LMS</property>
+        <property name="hibernate.connection.username">amank</property>
+        <property name="hibernate.connection.password">lolipop332</property>
+
+        <!-- Диалект -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Создание таблиц -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!--        &lt;!&ndash; Логи SQL &ndash;&gt;-->
+        <!--        <property name="hibernate.show_sql">true</property>-->
+        <!--        <property name="hibernate.format_sql">true</property>-->
+
+        <!-- Чтобы Hibernate не выводил SQL в консоль -->
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
+
+        <!-- Чтобы убрать INFO/WARN логи Hibernate -->
+        <property name="hibernate.use_sql_comments">false</property>
+
+        <!-- Entity -->
+        <mapping class="org.example.Users"/>
+        <mapping class="org.example.Course"/>
+        <mapping class="org.example.Lesson"/>
+        <mapping class="org.example.Test"/>
+        <mapping class="org.example.Question"/>
+        <mapping class="org.example.AnswerOption"/>
+        <mapping class="org.example.Enrollment"/>
+        <mapping class="org.example.Progress"/>
+        <mapping class="org.example.Comment"/>
+    </session-factory>
+</hibernate-configuration>

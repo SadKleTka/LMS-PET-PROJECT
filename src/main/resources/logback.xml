@@ -1,0 +1,17 @@
+<configuration>
+
+    <!-- Полностью выключаем ВСЕ логи -->
+    <root level="OFF">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <!-- Отключаем логи Hibernate -->
+    <logger name="org.hibernate" level="OFF"/>
+    <logger name="org.hibernate.SQL" level="OFF"/>
+    <logger name="org.hibernate.type" level="OFF"/>
+    <logger name="org.hibernate.orm" level="OFF"/>
+    <logger name="org.hibernate.engine" level="OFF"/>
+    <logger name="org.hibernate.stat" level="OFF"/>
+    <logger name="org.hibernate.cache" level="OFF"/>
+
+</configuration>
