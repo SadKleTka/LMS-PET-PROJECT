@@ -27,6 +27,9 @@ class UserService {
             return;
         }
         List<Comment> comments = userDao.viewComments(course);
+        if (comments.isEmpty()) {
+            System.out.println("This course has no comments yet");
+        }
         System.out.println("Name of the Course: " + course.getName());
         for (Comment comment : comments) {
             System.out.println("Username: " + comment.getUser().getUsername()
@@ -112,6 +115,9 @@ class UserService {
             System.out.println("Wrong password");
             return null;
         }
+        System.out.println("Welcome " + user.getUsername());
+        System.out.println("Press any key to continue...");
+        scan.nextLine();
         return user;
     }
 
@@ -119,10 +125,7 @@ class UserService {
         System.out.print("Enter username: ");
         String username = scan.nextLine();
         Users user = userDao.findByUsername(username);
-        if (user == null) {
-            System.out.println("User has not been found");
-            return;
-        }
+        if (user != null) {
         if (user.getRole() == UserRole.STUDENT) {
             List<Enrollment> courses = userDao.findEnrollments(user);
             System.out.println("Username: " + user.getUsername()
@@ -132,8 +135,7 @@ class UserService {
             for (Enrollment course : courses) {
                 System.out.println(course.getCourse().getName());
             }
-        }
-        else if (user.getRole() == UserRole.TEACHER) {
+        } else if (user.getRole() == UserRole.TEACHER) {
             List<Course> courses = userDao.viewUsersProgress(user);
             System.out.println("Username: " + user.getUsername()
                     + "\nRole: " + user.getRole()
@@ -142,6 +144,11 @@ class UserService {
             for (Course course : courses) {
                 System.out.println("Name: " + course.getName() + " Category: " + course.getCategory());
             }
+        }
+    }
+        else {
+            System.out.println("User has not been found");
+            return;
         }
         System.out.println("Press \"ENTER\" to continue...");
         scan.nextLine();

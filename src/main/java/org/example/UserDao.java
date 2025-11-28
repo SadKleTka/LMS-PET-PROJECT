@@ -84,13 +84,12 @@ class UserDao {
         }
     }
 
-    public Lesson findLesson(Course course, String name) {
+    public Lesson findLesson(String name) {
         Transaction tx;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
 
-            Lesson lesson = session.createQuery("FROM Lesson c WHERE c.course = :course AND c.name = :name", Lesson.class)
-                    .setParameter("course", course)
+            Lesson lesson = session.createQuery("FROM Lesson c WHERE c.name = :name", Lesson.class)
                     .setParameter("name", name)
                     .uniqueResult();
 

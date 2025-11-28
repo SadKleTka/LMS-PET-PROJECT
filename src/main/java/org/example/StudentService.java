@@ -63,9 +63,10 @@ class StudentService {
         }
         System.out.println("Enter name of lesson that you want to see: ");
         String lessonName = scan.nextLine();
+        outer:
         for (Enrollment course : courses) {
             for (Lesson lesson : course.getCourse().getLessons()) {
-                if (lesson.getName().equals(lessonName)) {
+                if (lesson.getName().equals(lessonName) && userDao.findLesson(lessonName).getCourse().getId().equals(course.getCourse().getId())) {
                     System.out.println("Lesson name: " + lesson.getName()
                     + "\nContent: " + lesson.getContent()
                     + "\nOnline lessons: " + lesson.getVideoUrl());
@@ -83,6 +84,7 @@ class StudentService {
                             System.out.println("You have failed it's test");
                     }
                 }
+                else continue outer;
             }
             System.out.println();
             System.out.println("Do you want to leave a comment for this course? (YES/NO)");
@@ -93,7 +95,6 @@ class StudentService {
             else if  (comment.equals("no")) {
                 return;
             }
-
         }
         System.out.println("Press any key to continue...");
         scan.nextLine();

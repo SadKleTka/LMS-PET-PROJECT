@@ -55,7 +55,7 @@ public class TeacherService {
         String lessonName = scan.nextLine();
         if (lessonName.equalsIgnoreCase("back")) return;
 
-        Lesson lesson = userDao.findLesson(course, lessonName);
+        Lesson lesson = userDao.findLesson(lessonName);
         if (lesson == null) {
             System.out.println("Lesson does not exist!");
             return;
@@ -180,7 +180,7 @@ public class TeacherService {
             System.out.println("Course does not exist");
             return;
         }
-        else if (userDao.findCourse(courseName).getTeacher() != user) {
+        else if (!userDao.findCourse(courseName).getTeacher().getUsername().equals(user.getUsername())) {
             System.out.println("This is not your course");
             return;
         }
