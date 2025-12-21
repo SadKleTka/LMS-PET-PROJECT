@@ -53,9 +53,6 @@ class UserService {
         else if (role.equalsIgnoreCase("TEACHER")) {
             r = UserRole.TEACHER;
         }
-        else if (role.equalsIgnoreCase("ADMIN")) {
-            r = UserRole.ADMIN;
-        }
         else {
             System.out.println("Wrong role");
             return;
@@ -65,8 +62,10 @@ class UserService {
         if (email.equalsIgnoreCase("back")) {
             return;
         }
-        if (!email.endsWith("@gmail.com"))
+        if (!email.endsWith("@gmail.com")) {
+            System.out.println("Wrong type of email. It has to end with @gmail.com");
             return;
+        }
         System.out.print("Enter username: ");
         String username = scan.nextLine();
         if (username.equalsIgnoreCase("back")) {
@@ -74,7 +73,25 @@ class UserService {
         }
         System.out.print("Enter password: ");
         String password = scan.nextLine();
+        boolean hasUpper = password.matches(".*[A-Z].*");
+        boolean hasLower = password.matches(".*[a-z].*");
+        boolean hasDigit = password.matches(".*\\d.*");
+        boolean hasSpecial = password.matches(".*[!@#$%^&*()].*");
         if (password.equalsIgnoreCase("back")) {
+            return;
+        }
+        else if (password.length() < 8) {
+            System.out.println("Password too short. Must be at least 8 characters");
+            return;
+        }
+        else if (!hasUpper || !hasLower || !hasDigit || !hasSpecial) {
+            System.out.println("\n" +
+                    "A password must contain at least one of each:\n" +
+                    "lowercase letter\n" +
+                    "uppercase letter\n" +
+                    "number\n" +
+                    "special character");
+            System.out.println();
             return;
         }
         Users existing = userDao.findByUsername(username);
@@ -115,9 +132,6 @@ class UserService {
             System.out.println("Wrong password");
             return null;
         }
-        System.out.println("Welcome " + user.getUsername());
-        System.out.println("Press any key to continue...");
-        scan.nextLine();
         return user;
     }
 
