@@ -142,6 +142,7 @@ class StudentService {
                 }
             }
         }
+        System.out.println();
         System.out.println("Press any key to continue...");
         scan.nextLine();
     }

@@ -99,7 +99,7 @@ class UserDao {
     }
 
 
-    public void addLesson(String courseName, String lessonName, String content, String videoUrl) {
+    public void addLesson(String courseName, String lessonName, String content, String videoUrl, List<Users> students) {
         Transaction tx;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
@@ -110,6 +110,14 @@ class UserDao {
             Lesson lesson = new Lesson(lessonName, content, videoUrl, course);
             course.getLessons().add(lesson);
             session.persist(lesson);
+            for (Users student : students) {
+                Progress progress = new Progress();
+                progress.setLesson(lesson);
+                progress.setStudent(student);
+                progress.setStatus(StatusOfProgress.STARTED);
+                session.persist(progress);
+            }
+
 
             tx.commit();
         }

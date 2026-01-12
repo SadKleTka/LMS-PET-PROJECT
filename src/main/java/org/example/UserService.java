@@ -14,6 +14,18 @@ class UserService {
                 "\nUsername: " + user.getUsername() +
                 "\nEmail: " + user.getEmail() +
                 "\nDateCreated: " + user.getDateCreated());
+        if (user.getRole() == UserRole.TEACHER) {
+            List<Course> courses = user.getCourses();
+            System.out.println("Courses created: ");
+            for (Course course : courses) {
+                System.out.println("Course name: " + course.getName());
+                System.out.println("Lessons names: ");
+                for (Lesson lesson : course.getLessons()) {
+                    System.out.println(lesson.getName());
+                }
+            }
+
+        }
         System.out.println("Press any key to continue");
         scan.nextLine();
     }

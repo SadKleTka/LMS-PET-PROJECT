@@ -73,19 +73,34 @@ public class TeacherService {
             if (questionText.equalsIgnoreCase("stop")) break;
 
             Map<String, Boolean> answerOptions = new LinkedHashMap<>();
-            String[] letters = {"A", "B", "C", "D"};
-
-            for (String letter : letters) {
+            List<String> lettersList = new ArrayList<>(Arrays.asList("A", "B", "C", "D"));
+            Iterator<String> iterator = lettersList.iterator();
+            while (iterator.hasNext()) {
+                String letter = iterator.next();
                 System.out.println("Enter answer " + letter + " for the question: ");
                 String answerText = scan.nextLine();
 
                 System.out.println("Enter 'R' if correct, any other key if not correct:");
                 String correctInput = scan.nextLine();
                 boolean isCorrect = correctInput.equalsIgnoreCase("R");
-
-                answerOptions.put(letter + ") " + answerText, isCorrect);
+                if (isCorrect) {
+                    answerOptions.put(letter + ") " + answerText, true);
+                    iterator.remove();
+                    break;
+                }
+                else {
+                    answerOptions.put(letter + ") " + answerText, false);
+                    iterator.remove();
+                }
             }
-
+            if (iterator.hasNext()) {
+                while (iterator.hasNext()) {
+                    String letter = iterator.next();
+                    System.out.println("Enter answer " + letter + " for the question: ");
+                    String answerText = scan.nextLine();
+                    answerOptions.put(letter + ") " + answerText, false);
+                }
+            }
             questionsData.put(questionText, answerOptions);
         }
 
@@ -141,7 +156,7 @@ public class TeacherService {
             System.out.println("Course does not exist");
             return;
         }
-        else if (course.getTeacher() != user) {
+        else if (!course.getTeacher().getUsername().equals(user.getUsername())) {
             System.out.println("This is not your course");
             return;
         }
@@ -200,7 +215,12 @@ public class TeacherService {
             System.out.println("Invalid URL");
             return;
         }
-        userDao.addLesson(courseName, lessonName, lessonContent, lessonUrl);
-
+        List<Enrollment> enrollments = userDao.findCourse(courseName).getEnrollments();
+        List<Users> students = new ArrayList<>();
+        for (Enrollment enrollment : enrollments) {
+            students.add(enrollment.getStudent());
+        }
+        userDao.addLesson(courseName, lessonName, lessonContent, lessonUrl, students);
+        System.out.println("Lesson has been added!");
     }
 }
